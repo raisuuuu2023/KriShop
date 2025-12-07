@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export const GET = withAuth(async (request, { params }) => {
     await connect();
     try {
-        const { id } = params;
+        const { id } = await params;
 
         // check if the logged in user is the one asking for the orders
         if (request.user.id !== id && request.user.role !== 'admin') {

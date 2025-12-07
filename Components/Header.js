@@ -10,9 +10,10 @@ import { useCart } from '@/context/CartContext';
 const Header = () => {
     const { data: session } = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { viewCart, cart } = useCart();
+    const { viewCart, cart, clearCart } = useCart();
 
     const handleLogout = () => {
+        clearCart();
         signOut();
     };
 
@@ -66,11 +67,10 @@ const Header = () => {
                             </Link>
                         </>
                     )}
-                   
-                        <Link href="/contact" className="flex flex-col items-center cursor-pointer">
-                            <i className="fas fa-headset text-xl mb-1"></i>
-                            <span>Contact</span> </Link>
-                    
+                    <div className="flex flex-col items-center cursor-pointer">
+                        <i className="fas fa-headset text-xl mb-1"></i>
+                        <span>Contact</span>
+                    </div>
                     <div className="flex flex-col items-center cursor-pointer" onClick={viewCart}>
                         <div className="relative">
                             <i className="fas fa-shopping-cart text-xl mb-1"></i>
@@ -80,7 +80,6 @@ const Header = () => {
                                 </span>
                             )}
                         </div>
-                        
                         <span>Cart</span>
                     </div>
                 </div>

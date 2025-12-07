@@ -31,7 +31,9 @@ function HomePage() {
             <main className="p-5 bg-gray-100">
                 <h2 className="text-4xl text-center text-green-700 h-16 mb-8">All Products</h2>
                 {loading ? (
-                    <p className="text-center">Loading products...</p>
+                    <div className="flex justify-center items-center min-h-[60vh]">
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-green-700"></div>
+                    </div>
                 ) : (
                     <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                         {products.map(product => (

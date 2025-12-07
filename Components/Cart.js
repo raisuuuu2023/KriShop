@@ -33,7 +33,7 @@ const Cart = () => {
     }
 
     const handlePaymentSubmit = async () => {
-        setShowPaymentModal(false);
+        // setShowPaymentModal(false); // keep it open or show loading state
         const transactionId = 'TXN-' + Date.now() + '-' + Math.floor(Math.random() * 1000000);
         const orderedItems = {
             items: selectedItems,
@@ -48,17 +48,16 @@ const Cart = () => {
                 ...orderedItems
             });
 
-            if (response.status !== 200) {
-                throw new Error('Network response was not ok');
+            if (response.status === 200 && response.data.url) {
+                window.location.replace(response.data.url);
+            } else {
+                throw new Error('Payment initialization failed');
             }
 
-            Swal.fire('Checked Out!', 'Your selected items have been checked out. Transaction ID: ' + transactionId, 'success');
-            removeSelectedFromCart(selectedItems);
-            setSelectedItems([]);
-            closeCart();
         } catch (error) {
             console.error('Error during checkout:', error);
             Swal.fire('Error!', 'There was an error during checkout. Please try again.', 'error');
+            setShowPaymentModal(false);
         }
     }
 

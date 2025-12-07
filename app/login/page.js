@@ -1,13 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,7 +20,7 @@ const LoginPage = () => {
         if (result.error) {
             setError(result.error);
         } else {
-            router.push(`/dashboard`);
+            window.location.href = '/dashboard';
         }
     };
 

@@ -30,6 +30,13 @@ const cartSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    status: {
+        type: String,
+        default: 'Pending',
+    },
+    val_id: {
+        type: String,
+    },
 });
 
 const OrderedItems = mongoose.models.OrderedItems || mongoose.model("OrderedItems", cartSchema);

@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# KriShop
+
+KriShop is a modern e-commerce application built with Next.js 16 and MongoDB. It features a comprehensive shopping experience with role-based dashboards for users, vendors, and admins.
+
+## Features
+
+-   **Authentication**: Secure login and registration using NextAuth.js.
+-   **Role-Based Access**: Specialized dashboards for different user roles:
+    -   **User**: Browse products, manage cart, view order history.
+    -   **Vendor**: Manage own products and sales.
+    -   **Admin**: Full system oversight, manage users, products, and orders.
+-   **Product Management**: Browse, search, and view product details. Admins and Vendors can create, update, and delete products.
+-   **Shopping Cart**: Real-time cart management with add/remove functionality.
+-   **Checkout & Payment**: Integrated checkout flow (SSLCommerz) with payment success/failure handling.
+-   **Responsive Design**: Built with Tailwind CSS for a mobile-first, responsive interface.
+
+## Tech Stack
+
+-   **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+-   **Language**: JavaScript
+-   **Database**: [MongoDB](https://www.mongodb.com/) (with Mongoose ODM)
+-   **Authentication**: [NextAuth.js](https://next-auth.js.org/)
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+-   **Notifications**: React Toastify & SweetAlert2
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up the project locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   Node.js (v18 or later recommended)
+-   MongoDB Database (local or Atlas)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  **Clone the repository:**
 
-## Learn More
+    ```bash
+    git clone https://github.com/yourusername/krishop.git
+    cd krishop
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install dependencies:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Environment Setup:**
 
-## Deploy on Vercel
+    Create a `.env.local` file in the root directory and add the following variables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```env
+    MONGO_DB_URI=your_mongodb_connection_string
+    NEXTAUTH_SECRET=your_nextauth_secret_key
+    NEXTAUTH_URL=http://localhost:3000
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    # Store ID and Password for Payment Gateway (if applicable)
+    STORE_ID=your_store_id
+    STORE_Pass=your_store_password
+    ```
+
+4.  **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Project Structure
+
+-   `app/`: Main application code (App Router).
+    -   `api/`: Backend API routes.
+    -   `dashboard/`: Role-based dashboard pages.
+    -   `login/` & `register/`: Authentication pages.
+-   `Components/`: Reusable UI components (Header, Cart, ProductCard, etc.).
+-   `Model/`: Mongoose data models (User, Product, CartModel).
+-   `utils/`: Utility functions (Database connection, helper scripts).
+
+## Scripts
+
+-   `npm run dev`: Runs the development server with Turbopack.
+-   `npm run build`: Builds the application for production.
+-   `npm start`: Starts the production server.
+-   `npm run lint`: Runs ESLint for code quality.

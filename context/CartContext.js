@@ -68,6 +68,10 @@ export const CartProvider = ({ children }) => {
         setCart(updatedCart);
     }
 
+    const clearCart = () => {
+        setCart([]);
+    };
+
     const value = {
         cart,
         showCart,
@@ -77,7 +81,8 @@ export const CartProvider = ({ children }) => {
         increaseQuantity,
         decreaseQuantity,
         removeFromCart,
-        removeSelectedFromCart
+        removeSelectedFromCart,
+        clearCart
     };
 
     return (

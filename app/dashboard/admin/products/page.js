@@ -1,28 +1,33 @@
 'use client'
 import axios from 'axios';
+import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
+import EditProductPopup from '@/Components/EditProductPopup';
 
 const AllProducts = () => {
     const [products, setProducts] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
+    const [selectedProduct, setSelectedProduct] = React.useState(null);
+    const [isEditPopupOpen, setEditPopupOpen] = React.useState(false);
+
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('/api/allProducts');
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            setProducts(response?.data);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     React.useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get('/api/allProducts');
-                if (response.status !== 200) {
-                    throw new Error('Network response was not ok');
-                }
-                setProducts(response?.data);
-            } catch (err) {
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchProducts();
     }, []);
 
@@ -57,6 +62,40 @@ const AllProducts = () => {
         });
     };
 
+    // const handleUpdateProduct = async (updatedProduct) => {
+    //     console.log("hit");
+
+    //     const { _id, ...productData } = updatedProduct;
+    //     console.log(_id);
+
+    //     try {
+    //         await axios.put(`/api/product/${updatedProduct._id}`, updatedProduct);
+    //         setProducts(products.map(p => p._id === updatedProduct._id ? updatedProduct : p));
+    //         Swal.fire(
+    //             'Updated!',
+    //             'The product has been updated.',
+    //             'success'
+    //         );
+    //     } catch (err) {
+    //         console.error('Failed to update product', err);
+    //         Swal.fire(
+    //             'Error!',
+    //             'There was an error updating the product.',
+    //             'error'
+    //         );
+    //     }
+    // }
+
+    const openEditPopup = (product) => {
+        setSelectedProduct(product);
+        setEditPopupOpen(true);
+    }
+
+    const closeEditPopup = () => {
+        setSelectedProduct(null);
+        setEditPopupOpen(false);
+    }
+
     if (loading) return <div className="p-8">Loading...</div>;
     if (error) return <div className="p-8">Error: {error.message}</div>;
 
@@ -86,8 +125,13 @@ const AllProducts = () => {
                                 <tr key={product._id}>
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div className="flex items-center">
-                                            <div className="flex-shrink-0 w-10 h-10">
-                                                <img className="w-full h-full rounded-full" src={product.images[0]?.url || 'https://placehold.co/40x40'} alt={product.name} />
+                                            <div className="flex-shrink-0 w-10 h-10 relative">
+                                                <Image
+                                                    src={product.images[0]?.url || 'https://placehold.co/40x40'}
+                                                    alt={product.name}
+                                                    fill
+                                                    className="rounded-full object-cover"
+                                                />
                                             </div>
                                             <div className="ml-3">
                                                 <p className="text-gray-900 whitespace-no-wrap">{product.name}</p>
@@ -110,7 +154,7 @@ const AllProducts = () => {
                                         </span>
                                     </td>
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                                        <Link href={`/dashboard/admin/products/edit/${product._id}`} className="text-indigo-600 hover:text-indigo-900">Edit</Link>
+                                        <button onClick={() => openEditPopup(product)} className="text-indigo-600 hover:text-indigo-900">Edit</button>
                                         <button onClick={() => handleDelete(product._id)} className="text-red-600 hover:text-red-900 ml-4">Delete</button>
                                     </td>
                                 </tr>
@@ -119,6 +163,15 @@ const AllProducts = () => {
                     </table>
                 </div>
             </div>
+            {isEditPopupOpen && (
+                <EditProductPopup
+                    product={selectedProduct}
+                    onClose={closeEditPopup}
+                // onProductUpdate={() => {
+                //     handleUpdateProduct();
+                // }}
+                />
+            )}
         </div>
     );
 }
